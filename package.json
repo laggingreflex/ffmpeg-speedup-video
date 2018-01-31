@@ -1,0 +1,16 @@
+{
+  "name": "ffmpeg-speedup-video",
+  "version": "0.0.0",
+  "description": "Speeds up a video using ffmpeg",
+  "main": "index.js",
+  "bin": {
+    "ffmpeg-speedup-video": "index.js",
+    "fsup": "index.js"
+  },
+  "repository": "laggingreflex/ffmpeg-speedup-video",
+  "dependencies": {
+    "configucius": "^2.0.0",
+    "export-dir": "^0.1.2",
+    "fluent-ffmpeg": "^2.1.2"
+  }
+}
