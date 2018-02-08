@@ -10,13 +10,6 @@ const config = module.exports = new(require('configucius'))({
       description: 'Input file to speed up'
     },
 
-    keepPitch: {
-      alias: 'p',
-      type: 'boolean',
-      prompt: true,
-      description: 'Keep the same pitch of the audio'
-    },
-
     factor: {
       alias: 'x',
       default: 4,
@@ -32,5 +25,15 @@ const config = module.exports = new(require('configucius'))({
       prompt: true,
       description: 'Frames per second'
     },
+
+    keepPitch: {
+      alias: 'p',
+      type: 'boolean',
+      prompt: true,
+      description: 'Keep the same pitch of the audio'
+    },
+
   }
 });
+
+
