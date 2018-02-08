@@ -26,5 +26,11 @@ const config = module.exports = new(require('configucius'))({
       description: 'Factor by which to speed up'
     },
 
+    fps: {
+      default: 60,
+      type: 'number',
+      prompt: true,
+      description: 'Frames per second'
+    },
   }
 });

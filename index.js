@@ -27,6 +27,7 @@ async function main() {
     const sample_rate = metadata.streams.find(s => s.codec_type === 'audio').sample_rate
     ffmpeg.outputOptions('-af', `asetrate=${config.factor}*${sample_rate}`);
   }
+  ffmpeg.fps(config.fps);
   ffmpeg.save(config.input.replace(/(.*)\.(.*?)$/, `$1_${config.factor}x.$2`));
 
   ffmpeg.on('start', console.log);
