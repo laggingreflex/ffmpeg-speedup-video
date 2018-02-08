@@ -1,6 +1,6 @@
 {
   "name": "ffmpeg-speedup-video",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Simple command-line tool that uses ffmpeg to speed up a video",
   "main": "index.js",
   "bin": {
