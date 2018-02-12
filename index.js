@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const Ffmpeg = require('fluent-ffmpeg');
+const rewriteLine = require('rewrite-line');
 const config = require('./config');
 const { promisify } = require('util');
 const utils = require('./utils');
@@ -19,26 +20,25 @@ async function main() {
   const ffmpeg = Ffmpeg({ logger: console.log });
   ffmpeg.input(config.input);
   const metadata = await promisify(Ffmpeg.ffprobe)(config.input);
+  // console.log(`metadata:`, metadata);
   ffmpeg.outputOptions('-vf', `setpts=(PTS-STARTPTS)/${config.factor}`);
   if (config.keepPitch) {
     const { n, multiplier } = utils.findExponent(config.factor);
     ffmpeg.outputOptions('-af', Array.from(Array(n)).map(x => `atempo=${multiplier}`).join(','));
   } else {
-    const sample_rate = metadata.streams.find(s => s.codec_type === 'audio').sample_rate
+    const { sample_rate } = metadata.streams.find(s => s.codec_type === 'audio');
     ffmpeg.outputOptions('-af', `asetrate=${config.factor}*${sample_rate}`);
   }
   ffmpeg.fps(config.fps);
   ffmpeg.save(config.input.replace(/(.*)\.(.*?)$/, `$1_${config.factor}x.$2`));
 
   ffmpeg.on('start', console.log);
-  ffmpeg.on('progress', _ => {
-    process.stdout.clearLine();
-    process.stdout.write((Object.entries(_).map(_ => _.join(': ')).join(', ')));
-    process.stdout.cursorTo(0);
-  });
-
+  const { duration } = metadata.streams.find(s => s.codec_type === 'video');
+  const total = duration / config.factor;
+  ffmpeg.on('progress', _ => rewriteLine(
+    parseInt(utils.parseDuration(_.timemark) / total * 100) + '%, '
+    + Object.entries(_).map(_ => _.join(': ')).join(', ')
+  ));
 }
 
 main().catch(e => process.exit(0, console.error(e)));
-
-

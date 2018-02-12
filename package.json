@@ -11,6 +11,7 @@
   "dependencies": {
     "configucius": "^2.0.0",
     "export-dir": "^0.1.2",
-    "fluent-ffmpeg": "^2.1.2"
+    "fluent-ffmpeg": "^2.1.2",
+    "rewrite-line": "^0.1.0"
   }
 }
